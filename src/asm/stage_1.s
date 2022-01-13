@@ -6,6 +6,12 @@
 # the bootloader from disk, and jumps to stage_2.
 
 _start:
+    jmp short start
+    nop
+
+.org 33
+
+start:
     # zero segment registers
     xor ax, ax
     mov ds, ax
