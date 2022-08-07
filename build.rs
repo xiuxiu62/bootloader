@@ -356,6 +356,8 @@ mod binary {
         pub map_page_table_recursively: bool,
         #[serde(default = "val_true")]
         pub map_framebuffer: bool,
+        #[serde(default)]
+        pub aslr: bool,
         pub kernel_stack_size: Option<AlignedAddress>,
         pub physical_memory_offset: Option<AlignedAddress>,
         pub recursive_index: Option<u16>,
@@ -364,6 +366,8 @@ mod binary {
         pub framebuffer_address: Option<AlignedAddress>,
         pub minimum_framebuffer_height: Option<usize>,
         pub minimum_framebuffer_width: Option<usize>,
+        pub dynamic_range_start: Option<AlignedAddress>,
+        pub dynamic_range_end: Option<AlignedAddress>,
     }
 
     /// Convert to tokens suitable for initializing the `Config` struct.
@@ -376,6 +380,7 @@ mod binary {
             let map_physical_memory = self.map_physical_memory;
             let map_page_table_recursively = self.map_page_table_recursively;
             let map_framebuffer = self.map_framebuffer;
+            let aslr = self.aslr;
             let kernel_stack_size = optional(self.kernel_stack_size);
             let physical_memory_offset = optional(self.physical_memory_offset);
             let recursive_index = optional(self.recursive_index);
@@ -384,11 +389,14 @@ mod binary {
             let framebuffer_address = optional(self.framebuffer_address);
             let minimum_framebuffer_height = optional(self.minimum_framebuffer_height);
             let minimum_framebuffer_width = optional(self.minimum_framebuffer_width);
+            let dynamic_range_start = optional(self.dynamic_range_start);
+            let dynamic_range_end = optional(self.dynamic_range_end);
 
             tokens.extend(quote! { Config {
                 map_physical_memory: #map_physical_memory,
                 map_page_table_recursively: #map_page_table_recursively,
                 map_framebuffer: #map_framebuffer,
+                aslr: #aslr,
                 kernel_stack_size: #kernel_stack_size,
                 physical_memory_offset: #physical_memory_offset,
                 recursive_index: #recursive_index,
@@ -396,7 +404,9 @@ mod binary {
                 boot_info_address: #boot_info_address,
                 framebuffer_address: #framebuffer_address,
                 minimum_framebuffer_height: #minimum_framebuffer_height,
-                minimum_framebuffer_width: #minimum_framebuffer_width
+                minimum_framebuffer_width: #minimum_framebuffer_width,
+                dynamic_range_start: #dynamic_range_start,
+                dynamic_range_end: #dynamic_range_end,
             }});
         }
     }

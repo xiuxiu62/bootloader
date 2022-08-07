@@ -57,7 +57,7 @@ checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
 name = "bootloader"
-version = "0.10.11"
+version = "0.10.12"
 dependencies = [
  "anyhow",
  "argh",
@@ -65,13 +65,16 @@ dependencies = [
  "conquer-once",
  "displaydoc",
  "fatfs",
- "font8x8",
  "gpt",
  "json",
  "llvm-tools",
  "log",
+ "noto-sans-mono-bitmap",
  "proc-macro2",
  "quote",
+ "rand",
+ "rand_chacha",
+ "raw-cpuid",
  "rsdp",
  "serde",
  "spinning_top",
@@ -171,12 +174,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "font8x8"
-version = "0.2.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e63201c624b8c8883921b1a1accc8916c4fa9dbfb15d122b26e4dde945b86bbf"
-
-[[package]]
 name = "getrandom"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -254,6 +251,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "noto-sans-mono-bitmap"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc5e9cd9598c6cc63547a44c3075b682d37175f3fb4508d3f7fe604ddad6d805"
+
+[[package]]
 name = "num-integer"
 version = "0.1.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -271,6 +274,12 @@ checksum = "9a64b1ec5cda2586e284722486d802acf1f7dbdc623e2bfc57e65ca1cd099290"
 dependencies = [
  "autocfg",
 ]
+
+[[package]]
+name = "ppv-lite86"
+version = "0.2.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed0cfbc8191465bed66e1718596ee0b0b35d5ee1f41c5df2189d0fe8bde535ba"
 
 [[package]]
 name = "proc-macro2"
@@ -291,6 +300,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "rand"
+version = "0.8.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2e7573632e6454cf6b99d7aac4ccca54be06da05aca2ef7423d22d27d4d4bcd8"
+dependencies = [
+ "rand_core",
+]
+
+[[package]]
+name = "rand_chacha"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
+dependencies = [
+ "ppv-lite86",
+ "rand_core",
+]
+
+[[package]]
+name = "rand_core"
+version = "0.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d34f1408f55294453790c48b2f1ebbb1c5b4b7563eb1f418bcfcfdbb06ebb4e7"
+
+[[package]]
+name = "raw-cpuid"
+version = "10.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "929f54e29691d4e6a9cc558479de70db7aa3d98cd6fe7ab86d7507aa2886b9d2"
+dependencies = [
+ "bitflags",
+]
+
+[[package]]
 name = "rsdp"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -306,6 +349,12 @@ dependencies = [
  "bootloader-locator",
  "locate-cargo-manifest",
 ]
+
+[[package]]
+name = "rustversion"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f2cc38e8fa666e2de3c4aba7edeb5ffc5246c1c2ed0e3d17e560aeeba736b23f"
 
 [[package]]
 name = "scopeguard"
@@ -533,20 +582,21 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 
 [[package]]
 name = "x86_64"
-version = "0.14.7"
+version = "0.14.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb611915c917c6296d11e23f71ff1ecfe49c5766daba92cd3df52df6b58285b6"
+checksum = "958cd5cb28e720db2f59ee9dc4235b5f82a183d079fb0e6caf43ad074cfdc66a"
 dependencies = [
  "bit_field",
  "bitflags",
+ "rustversion",
  "volatile",
 ]
 
 [[package]]
 name = "xmas-elf"
-version = "0.6.2"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22678df5df766e8d1e5d609da69f0c3132d794edf6ab5e75e7abcd2270d4cf58"
+checksum = "8d29b4d8e7beaceb4e77447ba941a7600d23d0319ab52da0461abea214832d5a"
 dependencies = [
  "zero",
 ]

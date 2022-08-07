@@ -1,3 +1,6 @@
+#[cfg(feature = "binary")]
+const PAGE_SIZE: u64 = 4096;
+
 /// Allows configuring the bootloader behavior.
 ///
 /// To control these, use a `[package.metadata.bootloader]` table in the `Cargo.toml` of
@@ -30,7 +33,7 @@
 ///
 /// All memory addresses are optional, even if their corresponding switch is enabled. If no
 /// address is specified, the bootloader will choose an unused entry of the level 4 page table
-/// at runtime.
+/// at runtime. The addresses can be restricted by setting the `dynamic-range` configuration key.
 #[derive(Debug)]
 pub struct Config {
     /// Whether to create a virtual mapping of the complete physical memory.
@@ -47,6 +50,12 @@ pub struct Config {
     ///
     /// Defaults to `false`.
     pub map_page_table_recursively: bool,
+    /// Whether to randomize non-statically configured addresses.
+    /// The kernel base address will be randomized when it's compiled as
+    /// a position independent executable.
+    ///
+    /// Defaults to `false`.
+    pub aslr: bool,
     /// Create the recursive mapping in at the given entry of the level 4 page table.
     ///
     /// If not given, the bootloader searches for a free level 4 entry dynamically.
@@ -87,4 +96,19 @@ pub struct Config {
     /// `minimum_framebuffer_width` is supplied, and using the last available mode that
     /// fits them if 1 or more is set.
     pub minimum_framebuffer_width: Option<usize>,
+    /// The lowest virtual address for dynamic addresses.
+    ///
+    /// Defaults to `0`.
+    pub dynamic_range_start: Option<u64>,
+    /// The highest virtual address for dynamic addresses.
+    ///
+    /// Defaults to `0xffff_ffff_ffff_f000`.
+    pub dynamic_range_end: Option<u64>,
+}
+
+#[cfg(feature = "binary")]
+impl Config {
+    pub(crate) fn kernel_stack_size(&self) -> u64 {
+        self.kernel_stack_size.unwrap_or(20 * PAGE_SIZE)
+    }
 }
